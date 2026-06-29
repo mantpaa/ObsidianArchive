@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ObsidianArchiveWeb.Models;
 
-namespace ObsidianArchiveWeb.ApplicationDbContext
+namespace ObsidianArchiveWeb.Data
 {
     public class ApplicationDbContext : DbContext
     {
