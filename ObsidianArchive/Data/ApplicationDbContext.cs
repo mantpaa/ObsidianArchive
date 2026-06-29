@@ -13,9 +13,9 @@ namespace ObsidianArchiveWeb.Data
         {
             //base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Mystery" },
-                new Category { Id = 2, Name = "Romance" },
-                new Category { Id = 3, Name = "Thriller" }
+                new Category { Id = 1, Name = "Mystery", DisplayOrder=1 },
+                new Category { Id = 2, Name = "Romance", DisplayOrder=2},
+                new Category { Id = 3, Name = "Thriller", DisplayOrder=3 }
                 );
         }
     }
