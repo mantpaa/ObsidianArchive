@@ -1,4 +1,5 @@
-﻿namespace ObsidianArchiveWeb.Models
+﻿
+namespace ObsidianArchiveWeb.Models
 {
     public class Category
     {
