@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ObsidianArchiveWeb.Data;
-using ObsidianArchiveWeb.Models;
+using ObsidianArchive.DataAccess.Data;
+using ObsidianArchive.Models;
 
 namespace ObsidianArchiveWeb.Controllers
 {

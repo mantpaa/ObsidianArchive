@@ -18,4 +18,9 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ObsidianArchive.Business\ObsidianArchive.Business.csproj" />
+    <ProjectReference Include="..\ObsidianArchive.DataAccess\ObsidianArchive.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

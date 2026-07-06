@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ObsidianArchiveWeb.Data;
+using ObsidianArchive.DataAccess.Data;
 
 #nullable disable
 
-namespace ObsidianArchiveWeb.Migrations
+namespace ObsidianArchive.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260629175438_AddDisplayOrderFieldToCategory")]

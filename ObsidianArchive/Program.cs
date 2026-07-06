@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ObsidianArchiveWeb.Data;
+using ObsidianArchive.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

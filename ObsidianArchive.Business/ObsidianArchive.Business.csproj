@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ObsidianArchive.DataAccess\ObsidianArchive.DataAccess.csproj" />
+    <ProjectReference Include="..\ObsidianArchive.Models\ObsidianArchive.Models.csproj" />
+    <ProjectReference Include="..\ObsidianArchive.Utility\ObsidianArchive.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

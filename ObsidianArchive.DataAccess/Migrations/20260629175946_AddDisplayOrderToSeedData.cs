@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ObsidianArchiveWeb.Migrations
+namespace ObsidianArchive.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddDisplayOrderToSeedData : Migration
