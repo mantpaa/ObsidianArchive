@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="ObsidianArchive.Business/ObsidianArchive.Business.csproj" Id="99c09146-c0b2-4df7-b471-888372266bc3" />
+  <Project Path="ObsidianArchive.DataAccess/ObsidianArchive.DataAccess.csproj" Id="b74aa0e7-7a5f-45a4-9728-35d888cd735a" />
+  <Project Path="ObsidianArchive.Models/ObsidianArchive.Models.csproj" Id="1a0049c3-244d-4bd3-b28e-032db2021a34" />
+  <Project Path="ObsidianArchive.Utility/ObsidianArchive.Utility.csproj" Id="f566797f-a191-47fd-bfe9-450d78d85296" />
   <Project Path="ObsidianArchive/ObsidianArchiveWeb.csproj" />
 </Solution>
