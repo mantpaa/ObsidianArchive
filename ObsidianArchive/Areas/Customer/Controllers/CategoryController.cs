@@ -71,7 +71,7 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
         public async Task<IActionResult> UpdatePost(Category category)
         {
             if (!string.IsNullOrEmpty(category.Name) &&
-                await _categoryService.IsCategoryNameUniqueAsync(category.Name, category.Id))
+                !await _categoryService.IsCategoryNameUniqueAsync(category.Name, category.Id))
             {
                 ModelState.AddModelError("", "Category name must be unique.");
             }
