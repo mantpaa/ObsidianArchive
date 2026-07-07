@@ -1,25 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
 
-namespace ObsidianArchiveWeb.Controllers
+namespace ObsidianArchiveWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(ApplicationDbContext context)
+        public CategoryController(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Category> categories = _context.Categories.ToList();
+            IEnumerable<Category> categories = await _categoryService.GetAllCategoriesAsync();
             return View(categories);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -28,17 +30,17 @@ namespace ObsidianArchiveWeb.Controllers
         [ValidateAntiForgeryToken]
         [ActionName("Create")]
 
-        public IActionResult CreatePost(Category category)
+        public async Task<IActionResult> CreatePost(Category category)
         {
-            if (!string.IsNullOrEmpty(category.Name) && _context.Categories.Any(c => c.Name.ToLower() == category.Name.ToLower()))
+            if (!string.IsNullOrEmpty(category.Name) && 
+                !await _categoryService.IsCategoryNameUniqueAsync(category.Name, category.Id))
             {
                 ModelState.AddModelError("", "Category name must be unique.");
             }
 
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
+                await _categoryService.CreateCategoryAsync(category);
                 TempData["success"] = "Category created";
                 return RedirectToAction("Index");
             }
@@ -46,14 +48,14 @@ namespace ObsidianArchiveWeb.Controllers
             
         }
 
-        public IActionResult Update(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var category = _context.Categories.Find(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -66,17 +68,17 @@ namespace ObsidianArchiveWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Update")]
-        public IActionResult UpdatePost(Category category)
+        public async Task<IActionResult> UpdatePost(Category category)
         {
-            if (!string.IsNullOrEmpty(category.Name) && _context.Categories.Any(c=> c.Name.ToLower() == category.Name.ToLower() && c.Id != category.Id))
+            if (!string.IsNullOrEmpty(category.Name) &&
+                await _categoryService.IsCategoryNameUniqueAsync(category.Name, category.Id))
             {
                 ModelState.AddModelError("", "Category name must be unique.");
             }
 
             if (ModelState.IsValid)
             {
-                _context.Categories.Update(category);
-                _context.SaveChanges();
+                await _categoryService.UpdateCategoryAsync(category);
                 TempData["success"] = "Category updated";
                 return RedirectToAction("Index");
             }
@@ -84,14 +86,14 @@ namespace ObsidianArchiveWeb.Controllers
             return View();
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var category = _context.Categories.Find(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
 
             if (category == null)
             {
@@ -104,17 +106,9 @@ namespace ObsidianArchiveWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
+        public async Task<IActionResult> DeletePost(int id)
         {
-            var category = _context.Categories.Find(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            await _categoryService.DeleteCategoryAsync(id);
             TempData["success"] = "Category deleted";
             return RedirectToAction("Index");
         }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-namespace ObsidianArchive.Controllers
+namespace ObsidianArchiveWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         public IActionResult Index()
