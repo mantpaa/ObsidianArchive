@@ -19,8 +19,20 @@ namespace ObsidianArchive.DataAccess.Data
                 new Category { Id = 3, Name = "Thriller", DisplayOrder=3 }
                 );
             modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Title = "Compendium of the Occult", Description = "Compendium of the OccultIn seven themed chapters, the book examines the use of talismans and charms, the practice of casting curses, secret societies and sacred sites, divination, rites, and rituals across the world, starting with an introduction to occult practices.",
-                    ISBN = "9780500028148", Author="Liz Williams", ListPrice = "37.95$", Price = 30, Price50 = 25, Price100 = 20, ImageUrl = ""  },
+                new Product 
+                { 
+                    Id = 1,
+                    Title = "Compendium of the Occult", 
+                    Description = "Compendium of the OccultIn seven themed chapters, the book examines the use of talismans and charms, the practice of casting curses, secret societies and sacred sites, divination, rites, and rituals across the world, starting with an introduction to occult practices.",
+                    ISBN = "9780500028148", 
+                    Author="Liz Williams", 
+                    ListPrice = "37.95$", 
+                    Price = 30, 
+                    Price50 = 25, 
+                    Price100 = 20, 
+                    ImageUrl = "", 
+                    CategoryId=3  
+                },
                 new Product
                 {
                     Id = 2,
@@ -32,6 +44,7 @@ namespace ObsidianArchive.DataAccess.Data
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
+                    CategoryId = 1,
                     ImageUrl = ""
                 },
                 new Product
@@ -45,7 +58,8 @@ namespace ObsidianArchive.DataAccess.Data
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    ImageUrl = ""
+                    ImageUrl = "",
+                    CategoryId = 2
                 }
                 );
         }
