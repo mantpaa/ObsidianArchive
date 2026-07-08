@@ -1,0 +1,63 @@
+﻿@using ObsidianArchive.Models
+@model Product
+
+<div class="container-fluid py-3">
+    <a asp-controller="Product" asp-action="Index" class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center gap-1 mb-3">
+        <i class="bi bi-arrow-left"></i> Back to categories
+    </a>
+    <div class="card border shadow-sm overflow-hidden">
+        <div class="card-header text-white py-3 px-4" style="background: linear-gradient(to right, #065f46, #282828, #191414);">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-plus-lg me-2"></i>Delete Product</h5>
+            <p class="mb-0 small" style="color: #1DB954;">Delete a product</p>
+        </div>
+        <div class="card-body p-4">
+            <form method="post">
+                <input asp-for="Id" hidden />
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label fw-semibold small">1 Name</label>
+                    <input type="text" readonly name="Title" asp-for="Title" class="form-control" placeholder="Enter product title" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold small">Description</label>
+                    <input type="text" readonly name="Description" asp-for="Description" class="form-control" placeholder="Enter description" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ISBN" class="form-label fw-semibold small">ISBN</label>
+                    <input type="text" readonly name="ISBN" asp-for="ISBN" class="form-control" placeholder="Enter ISBN" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Author" class="form-label fw-semibold small">Author</label>
+                    <input type="text" readonly name="Author" asp-for="Author" class="form-control" placeholder="Enter Author" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ListPrice" class="form-label fw-semibold small"></label>
+                    <input type="text" readonly name="ListPrice" asp-for="ListPrice" class="form-control" placeholder="Enter ListPrice" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label fw-semibold small"></label>
+                    <input type="text" readonly name="Price" asp-for="Price" class="form-control" placeholder="Enter Price" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price50" class="form-label fw-semibold small"></label>
+                    <input type="text" readonly name="Price50" asp-for="Price50" class="form-control" placeholder="Enter Price50" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price100" class="form-label fw-semibold small"></label>
+                    <input type="text" readonly name="Price100" asp-for="Price100" class="form-control" placeholder="Enter Price100" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label fw-semibold small">Image Url</label>
+                    <input type="text" readonly name="ImageUrl" asp-for="ImageUrl" class="form-control" placeholder="Enter ImageUrl" />
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-danger fw-semibold">Delete Product</button>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-light fw-medium">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
