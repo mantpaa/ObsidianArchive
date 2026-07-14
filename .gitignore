@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # image folder for new products
-ObsidianArchive/wwwroot/images/
+ObsidianArchive/wwwroot/images/products/
