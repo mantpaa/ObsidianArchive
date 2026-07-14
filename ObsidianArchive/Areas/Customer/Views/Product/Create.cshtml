@@ -35,12 +35,6 @@
                             <input type="text" name="Product.Author" asp-for="Product.Author" class="form-control" placeholder="Enter Author" />
                             <span asp-validation-for="Product.Author" class="text-danger small"></span>
                         </div>
-
-                        <div class="col-12">
-                            <label asp-for="Product.ImageUrl" class="form-label fw-semibold small"></label>
-                            <input type="text" name="Product.ImageUrl" asp-for="Product.ImageUrl" class="form-control" placeholder="Enter ImageUrl" />
-                            <span asp-validation-for="Product.ImageUrl" class="text-danger small"></span>
-                        </div>
                     </div>
                     <div class ="border rounded p-3 mt-3 bg-light">
                         <p class="text-uppercase fw-semibold text-secondary mb-3" style="font-size: 0.65rem; letter-spacing: 0.1em;">Pricing</p>
@@ -85,6 +79,11 @@
                 </div>
                 <div class="col-lg-4">
                     <!-- image -->
+                    <div class="border rounded p-3 bg-light text-center">
+                        <p class="text-uppercase fw-semibold text-secondary mb-2" style="font-size:0.65rem; letter-spacing: 0.1em;">Current image</p>
+                        <img src="@Model.Product.ImageUrl" class="img-fluid rounded shadow-sm mb-2" />
+                        <p class="text-secondary mb-0" style="font-size: 0.75rem;">Upload a new image to replace this one</p>
+                    </div>
                 </div>
                
                 <div class="mb-3">

@@ -107,22 +107,55 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var categoryList = await _categoryService.GetAllCategoriesAsync();
+            ProductVM productVM = new()
+            {
+                Product = product,
+                CategoryList = categoryList.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                })
+            };
+
+            return View(productVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Update")]
-        public async Task<IActionResult> UpdatePost(Product product)
+        public async Task<IActionResult> UpdatePost(ProductVM productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                await _productService.UpdateProductAsync(product);
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine("images", "products");
+                    string finalPath = Path.Combine(wwwRootPath, productPath);
+
+                    if (!Directory.Exists(finalPath))
+                    {
+                        Directory.CreateDirectory(finalPath);
+                    }
+
+                    // save new image
+                    using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    productVM.Product.ImageUrl = Path.Combine(@"\", productPath, fileName).Replace("\\", "/");
+                }
+
+                await _productService.UpdateProductAsync(productVM.Product);
                 TempData["success"] = "Product updated";
                 return RedirectToAction("Index");
             }
 
-            return View();
+            return View(productVM);
         }
 
         public async Task<IActionResult> Delete(int? id)
