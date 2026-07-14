@@ -3,9 +3,9 @@ using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
 
-namespace ObsidianArchiveWeb.Areas.Customer.Controllers
+namespace ObsidianArchiveWeb.Areas.Admin.Controllers
 {
-    [Area("Customer")]
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

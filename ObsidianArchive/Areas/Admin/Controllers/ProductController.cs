@@ -5,9 +5,9 @@ using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
 using ObsidianArchive.Models.ViewModels;
 
-namespace ObsidianArchiveWeb.Areas.Customer.Controllers
+namespace ObsidianArchiveWeb.Areas.Admin.Controllers
 {
-    [Area("Customer")]
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
