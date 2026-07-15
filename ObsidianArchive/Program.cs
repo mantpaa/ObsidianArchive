@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ObsidianArchive.Business.Services;
 using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
+using ObsidianArchive.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
