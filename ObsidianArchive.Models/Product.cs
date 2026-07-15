@@ -20,7 +20,7 @@ namespace ObsidianArchive.Models
         [Required]
         [Range(1, 1000)]
         [Display(Name = "List Price")]
-        public string ListPrice { get; set; } = string.Empty;
+        public double ListPrice { get; set; } = 0;
         [Required]
         [Range(1,1000)]
         [Display(Name="Price for 1-50")]
