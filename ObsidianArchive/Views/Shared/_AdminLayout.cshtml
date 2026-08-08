@@ -71,30 +71,7 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body p-3">
-            <div class="admin-sidebar-nav">
-                <p class="nav-section mb-1">Overview</p>
-                <!-- TODO: Add navigation links with active class logic -->
-                <a href="#" class="nav-link d-flex align-items-center gap-2">
-                    <i class="bi bi-graph-up"></i> Dashboard
-                </a>
-
-                <p class="nav-section mb-1">Commerce</p>
-                <a href="#" class="nav-link d-flex align-items-center gap-2">
-                    <i class="bi bi-truck"></i> Orders
-                </a>
-                <a href="#" class="nav-link d-flex align-items-center gap-2">
-                    <i class="bi bi-book"></i> Products
-                </a>
-                <a href="#" class="nav-link d-flex align-items-center gap-2">
-                    <i class="bi bi-tags"></i> Categories
-                </a>
-
-                <!-- TODO: Show Management section only for Admin role -->
-                <p class="nav-section mb-1">Management</p>
-                <a href="#" class="nav-link d-flex align-items-center gap-2">
-                    <i class="bi bi-people"></i> Users
-                </a>
-            </div>
+            <partial name ="_AdminSidebarNav" />
         </div>
     </div>
 
@@ -105,50 +82,25 @@
             </div>
 
             <nav class="flex-grow-1 overflow-auto p-3">
-                <div class="admin-sidebar-nav">
-                    <p class="nav-section mb-1">Overview</p>
-                    <!-- TODO: Add navigation links with active class logic -->
-                    <a href="#" class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-graph-up"></i> Dashboard
-                    </a>
-
-                    <p class="nav-section mb-1">Commerce</p>
-                    <a href="#" class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-truck"></i> Orders
-                    </a>
-                    <a href="#" class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-book"></i> Products
-                    </a>
-                    <a href="#" class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-tags"></i> Categories
-                    </a>
-
-                    <!-- TODO: Show Management section only for Admin role -->
-                    <p class="nav-section mb-1">Management</p>
-                    <a href="#" class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-people"></i> Users
-                    </a>
-                </div>
+                <partial name="_AdminSidebarNav" />
             </nav>
 
             <div class="border-top p-3" style="border-color: rgba(255,255,255,0.1) !important;">
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <i class="bi bi-person-circle" style="color: #94a3b8;"></i>
-                    <!-- TODO: Display username -->
-                    <span class="small text-truncate flex-grow-1 text-white">Username</span>
+                    <span class="small text-truncate flex-grow-1 text-white">@User.Identity?.Name</span>
                     <button id="themeToggle" class="btn btn-sm btn-link p-0" style="color: #94a3b8;" type="button" title="Toggle theme">
                         <i class="bi bi-moon-stars" id="themeIcon"></i>
                     </button>
                 </div>
                 <div class="d-flex gap-2">
-                    <!-- TODO: Add link to store -->
-                    <a href="#" class="btn btn-sm btn-outline-light flex-grow-1">
+                    <a asp-area="Customer" asp-controller = "Home" asp-action="Index" class="btn btn-sm btn-outline-light flex-grow-1">
                         <i class="bi bi-shop"></i> Store
                     </a>
-                    <!-- TODO: Add logout form -->
-                    <form method="post" action="#">
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Logout">
-                            <i class="bi bi-box-arrow-right"></i>
+                    <form method="post" asp-area="Identity" asp-controller="Account" asp-action="Logout">
+                        <button type="submit"
+                                class="btn btn-sm bn-outline-light" style="font-size:0.7rem; letter-spacing: 0.05em; text-transform:uppercase;">
+                            Logout
                         </button>
                     </form>
                 </div>
