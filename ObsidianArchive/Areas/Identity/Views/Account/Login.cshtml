@@ -11,24 +11,21 @@
                 </div>
 
                 <div class="card-body p-5">
-                    <form method="post">
+                    <form method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <div class="mb-3">
-                            <!-- TODO: Add label, input and validation tag helper for Email property -->
                             <label asp-for="Email" class="form-label">Email</label>
                             <input asp-for="Email"  type="email" class="form-control form-control-lg" placeholder="name@example.com" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <!-- TODO: Add label, input and validation tag helper for Password property -->
                             <label asp-for="Password" class="form-label">Password</label>
                             <input asp-for="Password" type="password" class="form-control form-control-lg" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
                         <div class="form-check mb-3">
-                            <!-- TODO: RememberMe  -->
                             <input asp-for ="RememberMe" type="checkbox" class="form-check-input" />
                             <label asp-for="RememberMe" class="form-check-label">Remember me?</label>
                         </div>
@@ -45,8 +42,10 @@
                     <hr class="my-4" />
 
                     <div class="text-center">
-                        <!-- TODO: Add Link -->
-                        <p class="mb-0">Don't have an account? <a asp-action="Register" class="fw-semibold text-decoration-none" style="color: #17A34A;">Register now</a></p>
+                        <p class="mb-0">Don't have an account? 
+                            <a asp-action="Register" 
+                            asp-route-returnUrl="@ViewData["ReturnUrl"]"
+                            class="fw-semibold text-decoration-none" style="color: #17A34A;">Register now</a></p>
                     </div>
                 </div>
             </div>

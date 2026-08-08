@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
 using ObsidianArchive.Models.ViewModels;
+using ObsidianArchive.Utility;
 
 namespace ObsidianArchiveWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -20,7 +23,8 @@ namespace ObsidianArchiveWeb.Areas.Admin.Controllers
             _categoryService = categoryService;
             _webHostEnvironment = webHostEnvironment;
         }
-        
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllProductsAsync();
@@ -42,6 +46,7 @@ namespace ObsidianArchiveWeb.Areas.Admin.Controllers
 
             return View(productVM);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -159,9 +164,10 @@ namespace ObsidianArchiveWeb.Areas.Admin.Controllers
         }
 
 
-        
+
 
         #region API calls
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllProductsAsync(includeCategory: true);

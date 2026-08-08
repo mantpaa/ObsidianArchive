@@ -1,3 +1,11 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using ObsidianArchive.Utility
+@{
+    if (User.IsInRole(StaticDetails.RoleAdmin) || User.IsInRole(StaticDetails.RoleEmployee))
+    {
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }

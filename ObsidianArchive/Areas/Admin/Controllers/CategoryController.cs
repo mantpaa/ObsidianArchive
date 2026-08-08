@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
+using ObsidianArchive.Utility;
 
 namespace ObsidianArchiveWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -15,6 +18,7 @@ namespace ObsidianArchiveWeb.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Category> categories = await _categoryService.GetAllCategoriesAsync();
