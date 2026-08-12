@@ -24,7 +24,7 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var claimsIdentity = (ClaimsIdentity) User.Identity;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -98,7 +98,15 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
             var cart = await _shoppingCartService.GetCartByIdAsync(cartId);
             if (cart != null)
             {
-                cart.Count++;
+                if (cart.Count >= 1000)
+                {
+                    cart.Count = 1000;
+                }
+                else
+                {
+                    cart.Count++;
+                }
+
                 await _shoppingCartService.UpdateCartAsync(cart);
             }
 
@@ -125,6 +133,34 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
                 await _shoppingCartService.UpdateCartAsync(cart);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> UpdateCart(int cartId, int count)
+        {
+            var cart = await _shoppingCartService.GetCartByIdAsync(cartId);
+            if (cart == null)
+            {
+                return NotFound();
+            }
+
+            if (count <= 1)
+            {
+                cart.Count = 0;
+            }
+            else
+            {
+                if (count >= 1000)
+                {
+                    cart.Count = 1000;
+                }
+                else
+                {
+                    cart.Count = count;
+                }
+            }
+
+            await _shoppingCartService.UpdateCartAsync(cart);
+            return Ok(new { success = true });
         }
     }
 }
