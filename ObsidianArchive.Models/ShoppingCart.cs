@@ -28,11 +28,11 @@ namespace ObsidianArchive.Models
         public double Price { get
             {
                 if (Product == null) return 0;
-                if (Count < 50)
+                if (Count <= 50)
                 {
                     return Product.Price;
                 }
-                else if (Count < 100)
+                else if (Count <= 100)
                 {
                     return Product.Price50;
                 }
