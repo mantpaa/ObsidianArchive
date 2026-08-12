@@ -13,11 +13,13 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
     {
         private readonly IProductService _productService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IApplicationUserService _applicationUserService;
 
-        public CartController(IProductService productService, IShoppingCartService shoppingCartService)
+        public CartController(IProductService productService, IShoppingCartService shoppingCartService, IApplicationUserService applicationUserService)
         {
             _productService = productService;
             _shoppingCartService = shoppingCartService;
+            _applicationUserService = applicationUserService;
         }
 
         public async Task<IActionResult> Index()
@@ -31,6 +33,7 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
             }
 
             var cartItems = await _shoppingCartService.GetCartItemsAsync(userId);
+            var user = await _applicationUserService.GetUserByIdAsync(userId);
 
             ShoppingCartVM shoppingCartVM = new()
             {
@@ -38,7 +41,16 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
                 OrderHeader = new()
             };
 
-            foreach(var cartItem in shoppingCartVM.ShoppingCartList)
+            shoppingCartVM.OrderHeader.ApplicationUser = user;
+            shoppingCartVM.OrderHeader.ApplicationUserId = user.Id;
+            shoppingCartVM.OrderHeader.Name = user.Name;
+            shoppingCartVM.OrderHeader.PhoneNumber = user.PhoneNumber;
+            shoppingCartVM.OrderHeader.State = user.State;
+            shoppingCartVM.OrderHeader.City = user.City;
+            shoppingCartVM.OrderHeader.PostalCode = user.PostalCode;
+            shoppingCartVM.OrderHeader.StreetAddress = user.StreetAddress;
+
+            foreach (var cartItem in shoppingCartVM.ShoppingCartList)
             {
                 shoppingCartVM.OrderHeader.OrderTotal += cartItem.Price * cartItem.Count;
             }
@@ -79,6 +91,40 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
 
             await _shoppingCartService.AddToCartAsync(shoppingCart);
             return RedirectToAction("Details", new { productId = shoppingCart.ProductId });
+        }
+
+        public async Task<IActionResult> Plus(int cartId)
+        {
+            var cart = await _shoppingCartService.GetCartByIdAsync(cartId);
+            if (cart != null)
+            {
+                cart.Count++;
+                await _shoppingCartService.UpdateCartAsync(cart);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Minus(int cartId)
+        {
+            var cart = await _shoppingCartService.GetCartByIdAsync(cartId);
+            if (cart != null)
+            {
+                cart.Count--;
+                await _shoppingCartService.UpdateCartAsync(cart);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Remove(int cartId)
+        {
+            var cart = await _shoppingCartService.GetCartByIdAsync(cartId);
+            if (cart != null)
+            {
+                cart.Count = 0;
+                await _shoppingCartService.UpdateCartAsync(cart);
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
