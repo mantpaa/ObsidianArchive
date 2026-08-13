@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.Models;
 using ObsidianArchive.Models.ViewModels;
+using ObsidianArchive.Utility;
 using System.Security.Claims;
 
 namespace ObsidianArchiveWeb.Areas.Customer.Controllers
@@ -11,15 +12,17 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IApplicationUserService _applicationUserService;
+        private readonly IProductService _productService;
 
-        public CartController(IProductService productService, IShoppingCartService shoppingCartService, IApplicationUserService applicationUserService)
+        public CartController(IOrderService orderService, IShoppingCartService shoppingCartService, IApplicationUserService applicationUserService, IProductService productService)
         {
-            _productService = productService;
+            _orderService = orderService;
             _shoppingCartService = shoppingCartService;
             _applicationUserService = applicationUserService;
+            _productService = productService;
         }
 
         public async Task<IActionResult> Index()
@@ -56,6 +59,49 @@ namespace ObsidianArchiveWeb.Areas.Customer.Controllers
             }
 
             return View(shoppingCartVM);
+        }
+
+        [HttpPost]
+        [ActionName("Index")]
+        public async Task<IActionResult> IndexPOST(ShoppingCartVM shoppingCartVM)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var cartItems = await _shoppingCartService.GetCartItemsAsync(userId);
+            var user = await _applicationUserService.GetUserByIdAsync(userId);
+
+            shoppingCartVM.ShoppingCartList = cartItems;
+
+            shoppingCartVM.OrderHeader.OrderDate = DateTime.UtcNow;
+            shoppingCartVM.OrderHeader.ApplicationUserId = userId;
+            
+
+            foreach (var cartItem in shoppingCartVM.ShoppingCartList)
+            {
+                shoppingCartVM.OrderHeader.OrderTotal += cartItem.Price * cartItem.Count;
+            }
+
+            shoppingCartVM.OrderHeader.OrderStatus = OrderStatus.Approved.ToString();
+            shoppingCartVM.OrderHeader.OrderDetails = shoppingCartVM.ShoppingCartList.Select(cart => new OrderDetails
+            {
+                ProductId = cart.ProductId,
+                Price = cart.Price,
+                Count = cart.Count
+            }).ToList();
+
+            await _orderService.CreateOrderAsync(shoppingCartVM.OrderHeader);
+            return RedirectToAction("OrderConfirmation", new {id = shoppingCartVM.OrderHeader.Id});
+        }
+
+        public async Task<IActionResult> OrderConfirmation(int id)
+        {
+            return View(id);
         }
 
         public async Task<IActionResult> Details(int productId)
