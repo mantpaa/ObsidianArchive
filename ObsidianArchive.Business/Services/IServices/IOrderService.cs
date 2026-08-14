@@ -1,4 +1,5 @@
 ﻿using ObsidianArchive.Models;
+using ObsidianArchive.Utility;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,8 @@ namespace ObsidianArchive.Business.Services.IServices
         Task<OrderHeader?> GetOrderByIdAsync(int id, bool includeUser = false, bool includeDetails = false);
         Task<IEnumerable<OrderHeader>> GetAllOrdersAsync(string? userId=null, string? status=null, bool includeUser = false, bool includeDetails = false);
 
-        Task<OrderHeader?> UpdateOrderAsync(OrderHeader orderHeader);
+        Task UpdateOrderAsync(OrderHeader orderHeader);
+
+        Task UpdateOrderStatusAsync(int id, string orderStatus, string? carrier = null, string? trackingNumber = null);
     }
 }

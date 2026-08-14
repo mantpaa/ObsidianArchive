@@ -2,6 +2,7 @@
 using ObsidianArchive.Business.Services.IServices;
 using ObsidianArchive.DataAccess.Data;
 using ObsidianArchive.Models;
+using ObsidianArchive.Utility;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -66,9 +67,36 @@ namespace ObsidianArchive.Business.Services
             return await query.FirstOrDefaultAsync(o=>o.Id == id);
         }
 
-        public Task<OrderHeader?> UpdateOrderAsync(OrderHeader orderHeader)
+        public async Task UpdateOrderAsync(OrderHeader orderHeader)
         {
-            throw new NotImplementedException();
+            _dbContext.OrderHeaders.Update(orderHeader);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderStatusAsync(int id, string orderStatus, string? carrier = null, string? trackingNumber = null)
+        {
+            var order = await _dbContext.OrderHeaders.FindAsync(id);
+            if (order == null)
+            {
+                throw new KeyNotFoundException($"Order {id} not found.");
+            }
+
+            order.OrderStatus = orderStatus;
+           if (orderStatus == OrderStatus.Shipped.ToString())
+            {
+                order.ShippingDate = DateTime.UtcNow;
+                if (!string.IsNullOrEmpty(carrier))
+                {
+                    order.Carrier = carrier;
+                }
+
+                if (!string.IsNullOrEmpty(trackingNumber))
+                {
+                    order.TrackingNumber = trackingNumber;
+                }
+            }
+
+           await _dbContext.SaveChangesAsync();
         }
     }
 }

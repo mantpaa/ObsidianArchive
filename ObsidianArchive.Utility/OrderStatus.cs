@@ -8,7 +8,7 @@ namespace ObsidianArchive.Utility
     {
         Pending,
         Approved,
-        InProcess,
+        Processing,
         Shipped,
         Cancelled,
         Refunded
